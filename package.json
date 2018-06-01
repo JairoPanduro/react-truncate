@@ -1,5 +1,5 @@
 {
-  "name": "react-truncate",
+  "name": "react-truncate-forked",
   "version": "2.3.0",
   "description": "React component for truncating multi-line spans and adding an ellipsis",
   "main": "lib/Truncate.CommonJS.js",
@@ -8,10 +8,10 @@
     "lib"
   ],
   "scripts": {
-    "compile": "mkdir lib; ./node_modules/.bin/babel ./src --out-file ./lib/Truncate.js && BABEL_ENV=CommonJS ./node_modules/.bin/babel ./src --out-file ./lib/Truncate.CommonJS.js",
+    "compile": "mkdir lib; babel ./src --out-file ./lib/Truncate.js && BABEL_ENV=CommonJS babel ./src --out-file ./lib/Truncate.CommonJS.js",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov",
     "lint": "eslint .",
-    "preinstall": "rm -rf ./lib && npm run compile",
+    "prepublish": "rm -rf ./lib && npm run compile",
     "preversion": "npm run test",
     "report-coverage": "npm run coverage | coveralls",
     "test": "BABEL_ENV=test mocha --require babel-polyfill --require babel-core/register",
