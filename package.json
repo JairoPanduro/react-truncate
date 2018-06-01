@@ -11,7 +11,7 @@
     "compile": "mkdir lib; babel ./src --out-file ./lib/Truncate.js && BABEL_ENV=CommonJS babel ./src --out-file ./lib/Truncate.CommonJS.js",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov",
     "lint": "eslint .",
-    "prepublish": "rm -rf ./lib && npm run compile",
+    "postinstall": "rm -rf ./lib && npm run compile",
     "preversion": "npm run test",
     "report-coverage": "npm run coverage | coveralls",
     "test": "BABEL_ENV=test mocha --require babel-polyfill --require babel-core/register",
