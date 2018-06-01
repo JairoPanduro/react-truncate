@@ -221,7 +221,7 @@ export default class Truncate extends Component {
 
             if (line === numLines) {
                 if (dontBreakLastLineWord) {
-                    let lower = this.getLowerBoundaryOfBinarySearch(textWords, measureWidth, targetWidth);
+                    let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth);
 
                     // The first word of this line is too long to fit it
                     if (lower === 0) {
@@ -266,7 +266,7 @@ export default class Truncate extends Component {
 
                 resultLine = <span>{lastLineText}{ellipsis}</span>;
             } else {
-                let lower = this.getLowerBoundaryOfBinarySearch(textWords, measureWidth, targetWidth);
+                let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth);
 
                 // The first word of this line is too long to fit it
                 if (lower === 0) {
@@ -287,7 +287,7 @@ export default class Truncate extends Component {
         return lines;
     }
 
-    getLowerBoundaryOfBinarySearch(textWords, measureWidth, targetWidth) {
+    getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth) {
         // Binary search determining when the line breaks
         let lower = 0;
         let upper = textWords.length - 1;
@@ -297,7 +297,7 @@ export default class Truncate extends Component {
 
             const testLine = textWords.slice(0, middle + 1).join(' ');
 
-            if (measureWidth(testLine) <= targetWidth) {
+            if (measureWidth(testLine) + ellipsisWidth <= targetWidth) {
                 lower = middle + 1;
             } else {
                 upper = middle - 1;
