@@ -52,7 +52,8 @@ Hint: (Generally with React) if you want to preserve newlines from plain text, y
 | onTruncate | function | | Gets invoked on each render. Gets called with `true` when text got truncated and ellipsis was injected, and with `false` otherwise. | `isTruncated => isTruncated !== this.state.isTruncated && this.setState({ isTruncated })` |
 | trimWhitespace | boolean | false | If `true`, whitespace will be removed from before the ellipsis (e.g. `words ...` will become `words...` instead) | `<Truncate trimWhitespace>{longText}</Truncate>` |
 | dontBreakLastLineWord | boolean| false| If `true`, the last word before the ellipsis won't be cut if it's length doesn't fit to the line size | 
-| truncationAppendix | string| '' | When the truncation happen, this will be the string, that will be added to the text |
+| truncationAppendix | string| '' | When the truncation happens, this will be the string, that will be added to the text |
+| dontBreakOnPunctuationMark | boolean | false | If `true` and the last symbol in the truncated string will be a punctuation mark, it will be removed
 
 ## Known issues
 - Text exceeding horizontal boundaries when "viewport" meta tag is not set accordingly for mobile devices (font boosting leads to wrong calculations). See [issue](https://github.com/One-com/react-truncate/issues/4#issuecomment-226703499)

@@ -11,6 +11,7 @@ export default class Truncate extends Component {
         ]),
         trimWhitespace: PropTypes.bool,
         dontBreakLastLineWord: PropTypes.bool,
+        dontBreakOnPunctuationMark: PropTypes.bool,
         truncationAppendix: PropTypes.string,
         onTruncate: PropTypes.func
     };
@@ -21,6 +22,7 @@ export default class Truncate extends Component {
         lines: 1,
         trimWhitespace: false,
         dontBreakLastLineWord: false,
+        dontBreakOnPunctuationMark: false,
         truncationAppendix: ''
     };
 
@@ -181,7 +183,8 @@ export default class Truncate extends Component {
                 ellipsis,
                 trimWhitespace,
                 dontBreakLastLineWord,
-                truncationAppendix
+                truncationAppendix,
+                dontBreakOnPunctuationMark
             },
             state: {
                 targetWidth
@@ -235,6 +238,12 @@ export default class Truncate extends Component {
                     }
 
                     lastLineText = textWords.slice(0, lower).join(' ');
+                    if (dontBreakOnPunctuationMark) {
+                        const lastLineSymbol = lastLineText[lastLineText.length - 1];
+                        if (['.', ',', '!', '?', ':', ';', '-', '(', '{', '['].indexOf(lastLineSymbol) > -1) {
+                            lastLineText = lastLineText.slice(0, lastLineText.length - 1);
+                        }
+                    }
                     if (truncationAppendix.length) {
                         lastLineText += truncationAppendix;
                     }
@@ -368,6 +377,7 @@ export default class Truncate extends Component {
         delete spanProps.trimWhitespace;
         delete spanProps.dontBreakLastLineWord;
         delete spanProps.truncationAppendix;
+        delete spanProps.dontBreakOnPunctuationMark;
 
         return (
             <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
