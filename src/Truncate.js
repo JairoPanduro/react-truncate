@@ -235,6 +235,9 @@ export default class Truncate extends Component {
                     }
 
                     lastLineText = textWords.slice(0, lower).join(' ');
+                    if (truncationAppendix.length) {
+                        lastLineText += lastLineText;
+                    }
                 } else {
                     // Binary search determining the longest possible line including truncate string
                     const textRest = textWords.join(' ');
