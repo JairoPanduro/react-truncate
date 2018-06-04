@@ -11,6 +11,7 @@ export default class Truncate extends Component {
         ]),
         trimWhitespace: PropTypes.bool,
         dontBreakLastLineWord: PropTypes.bool,
+        truncationAppendix: PropTypes.string,
         onTruncate: PropTypes.func
     };
 
@@ -19,7 +20,8 @@ export default class Truncate extends Component {
         ellipsis: '…',
         lines: 1,
         trimWhitespace: false,
-        dontBreakLastLineWord: false
+        dontBreakLastLineWord: false,
+        truncationAppendix: ''
     };
 
     state = {};
@@ -178,7 +180,8 @@ export default class Truncate extends Component {
                 lines: numLines,
                 ellipsis,
                 trimWhitespace,
-                dontBreakLastLineWord
+                dontBreakLastLineWord,
+                truncationAppendix
             },
             state: {
                 targetWidth
@@ -221,7 +224,8 @@ export default class Truncate extends Component {
 
             if (line === numLines) {
                 if (dontBreakLastLineWord) {
-                    let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth);
+                    const truncationAppendixWidth = this.measureWidth(truncationAppendix);
+                    let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, truncationAppendixWidth, measureWidth, targetWidth);
 
                     // The first word of this line is too long to fit it
                     if (lower === 0) {
@@ -266,7 +270,7 @@ export default class Truncate extends Component {
 
                 resultLine = <span>{lastLineText}{ellipsis}</span>;
             } else {
-                let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth);
+                let lower = this.getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, 0, measureWidth, targetWidth);
 
                 // The first word of this line is too long to fit it
                 if (lower === 0) {
@@ -287,7 +291,7 @@ export default class Truncate extends Component {
         return lines;
     }
 
-    getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, measureWidth, targetWidth) {
+    getLowerBoundaryOfBinarySearch(textWords, ellipsisWidth, truncationAppendixWidth, measureWidth, targetWidth) {
         // Binary search determining when the line breaks
         let lower = 0;
         let upper = textWords.length - 1;
@@ -297,7 +301,7 @@ export default class Truncate extends Component {
 
             const testLine = textWords.slice(0, middle + 1).join(' ');
 
-            if (measureWidth(testLine) + ellipsisWidth <= targetWidth) {
+            if (measureWidth(testLine) + ellipsisWidth + truncationAppendixWidth <= targetWidth) {
                 lower = middle + 1;
             } else {
                 upper = middle - 1;
@@ -360,6 +364,7 @@ export default class Truncate extends Component {
         delete spanProps.onTruncate;
         delete spanProps.trimWhitespace;
         delete spanProps.dontBreakLastLineWord;
+        delete spanProps.truncationAppendix;
 
         return (
             <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
