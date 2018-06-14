@@ -385,8 +385,8 @@ export default class Truncate extends Component {
             delete spanProps.useDangerouslySetInnerHTML;
             return (
                 <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
-                    <span>{text}</span>
-                    <span ref={(textEl) => { this.elements.text = textEl; }} dangerouslySetInnerHTML={{__html: children}} />
+                    <span dangerouslySetInnerHTML={{__html: text}} />
+                    <span ref={(textEl) => { this.elements.text = textEl; }} >{children}</span>
                     <span ref={(ellipsisEl) => { this.elements.ellipsis = ellipsisEl; }} style={this.styles.ellipsis}>
                         {ellipsis}
                     </span>
