@@ -54,6 +54,7 @@ Hint: (Generally with React) if you want to preserve newlines from plain text, y
 | dontBreakLastLineWord | boolean| false| If `true`, the last word before the ellipsis won't be cut if it's length doesn't fit to the line size | 
 | truncationAppendix | string| '' | When the truncation happens, this will be the string, that will be added to the text |
 | dontBreakOnPunctuationMark | boolean | false | If `true` and the last symbol in the truncated string will be a punctuation mark, it will be removed
+| useDangerouslySetInnerHTML | boolean | false | If `true` dangerouslySetInnerHTML will be used
 
 ## Known issues
 - Text exceeding horizontal boundaries when "viewport" meta tag is not set accordingly for mobile devices (font boosting leads to wrong calculations). See [issue](https://github.com/One-com/react-truncate/issues/4#issuecomment-226703499)

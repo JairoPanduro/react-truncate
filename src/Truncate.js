@@ -12,6 +12,7 @@ export default class Truncate extends Component {
         trimWhitespace: PropTypes.bool,
         dontBreakLastLineWord: PropTypes.bool,
         dontBreakOnPunctuationMark: PropTypes.bool,
+        useDangerouslySetInnerHTML: PropTypes.bool,
         truncationAppendix: PropTypes.string,
         onTruncate: PropTypes.func
     };
@@ -23,6 +24,7 @@ export default class Truncate extends Component {
         trimWhitespace: false,
         dontBreakLastLineWord: false,
         dontBreakOnPunctuationMark: false,
+        useDangerouslySetInnerHTML: false,
         truncationAppendix: ''
     };
 
@@ -379,15 +381,29 @@ export default class Truncate extends Component {
         delete spanProps.truncationAppendix;
         delete spanProps.dontBreakOnPunctuationMark;
 
-        return (
-            <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
-                <span>{text}</span>
-                <span ref={(textEl) => { this.elements.text = textEl; }}>{children}</span>
-                <span ref={(ellipsisEl) => { this.elements.ellipsis = ellipsisEl; }} style={this.styles.ellipsis}>
-                    {ellipsis}
+        if (spanProps.useDangerouslySetInnerHTML) {
+            delete spanProps.useDangerouslySetInnerHTML;
+            return (
+                <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
+                    <span>{text}</span>
+                    <span ref={(textEl) => { this.elements.text = textEl; }} dangerouslySetInnerHTML={{__html: children}} />
+                    <span ref={(ellipsisEl) => { this.elements.ellipsis = ellipsisEl; }} style={this.styles.ellipsis}>
+                        {ellipsis}
+                    </span>
                 </span>
-            </span>
-        );
+            );
+        } else {
+            delete spanProps.useDangerouslySetInnerHTML;
+            return (
+                <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
+                    <span>{text}</span>
+                    <span ref={(textEl) => { this.elements.text = textEl; }}>{children}</span>
+                    <span ref={(ellipsisEl) => { this.elements.ellipsis = ellipsisEl; }} style={this.styles.ellipsis}>
+                        {ellipsis}
+                    </span>
+                </span>
+            );
+        }
     }
 
     styles = {
