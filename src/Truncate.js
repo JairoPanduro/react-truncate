@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactDOMServer } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Truncate extends Component {
@@ -385,7 +385,7 @@ export default class Truncate extends Component {
             delete spanProps.useDangerouslySetInnerHTML;
             return (
                 <span {...spanProps} ref={(targetEl) => { this.elements.target = targetEl; }}>
-                    <span dangerouslySetInnerHTML={{__html: text ? text.map(React.renderToStaticMarkup).join('') : '' }} />
+                    <span dangerouslySetInnerHTML={{__html: ReactDOMServer.renderToString(text) }} />
                     <span ref={(textEl) => { this.elements.text = textEl; }} >{children}</span>
                     <span ref={(ellipsisEl) => { this.elements.ellipsis = ellipsisEl; }} style={this.styles.ellipsis}>
                         {ellipsis}
